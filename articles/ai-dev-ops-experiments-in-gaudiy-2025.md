@@ -2,7 +2,7 @@
 title: "AIを活用したプロダクト開発におけるガードレール/ラストワンマイル戦略として試していること"
 emoji: "🧭"
 type: "tech"
-topics: ["AI", "LLM", "Claude", "GitHub Actions", "GauDev" , "アドベントカレンダー"]
+topics: ["LLM", "Claude Code", "GitHub Actions", "GauDev" , "アドベントカレンダー"]
 published: true
 published_at: 2025-12-05 00:00
 ---
