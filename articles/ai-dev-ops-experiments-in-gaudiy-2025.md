@@ -3,7 +3,7 @@ title: "AIを活用したプロダクト開発におけるガードレール/ラ
 emoji: "🧭"
 type: "tech"
 topics: ["AI", "LLM", "Claude", "GitHub Actions", "GauDev" , "アドベントカレンダー"]
-published: false
+published: true
 published_at: 2025-12-05 00:00
 ---
 
