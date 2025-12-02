@@ -39,6 +39,10 @@ Claude Code をはじめとするAIコーディングエージェントの強み
 [Claude Code GitHub Action ](https://code.claude.com/docs/github-actions) とは GitHub Actions 上で Claude Code を実行することができるアクションです。
 
 
+![](/images/ai-dev-ops-experiments-in-gaudiy-2025//architecture.png)
+
+
+
 ```yaml:claude-code-slack-action.yml
 name: Claude Code Slack Action
 
@@ -97,7 +101,7 @@ jobs:
             ## User's Prompt
             User: ${{ inputs.prompt }}
 ```
-</details>
+
 
 ```typescript:tools.ts
 export const allowedTools = [
@@ -114,6 +118,8 @@ export const allowedTools = [
   "mcp__slack__slack_reply_to_thread",
 ]
 ```
+
+
 
 ```typescript:index.ts
 import { Octokit } from "@octokit/rest";
@@ -137,7 +143,6 @@ await octokit.actions.createWorkflowDispatch({
   }
 });
 ```
-
 
 ## おわりに
 
