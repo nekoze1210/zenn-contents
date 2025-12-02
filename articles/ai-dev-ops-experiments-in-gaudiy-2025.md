@@ -11,13 +11,24 @@ published_at: 2025-12-05 00:00
 
 ---
 
-今年は AI 開発が加速する1年でした。Claude Code や MCP(Model Context Protocol) が公開されてから約半年しか経っていないだなんて、信じられませんね...
+今年は AI 開発が加速する1年でした。Claude Code をはじめとする AI コーディングエージェント や MCP(Model Context Protocol) が公開されてから約半年しか経っていないなんて、信じられませんね...
 
-Gaudiy でも各チームで AI 開発を積極的に取り入れてきました。今回の記事では、その一部であるAI開発におけるラストワンマイル活用として試していることをご紹介します。
+Gaudiy でも全社的にAI活用を積極的に進めてきました。この記事では、プロダクト運用現場における**AIを活用したラストワンマイル**として試していることをご紹介します。
 
-## AI 開発におけるラストワンマイルとは 
-Claude Code をはじめとするAIコーディングエージェントの強みは、CLAUDE.md(AGENTS.md)を起点にプロダクトに関するコンテキストを持った働きができるということが挙げられます。
-しかし、すべての職能の人が AIコーディングエージェント を使える環境を整備できないため、プロダクトのコンテキストをもったAI活用ができません。[^1]
+## AI開発時代における運用上の課題
+コンテキストを持っていない LLM アプリケーション(Chat GPT, Gemini, Claude など) にプロダクトのことを聞いてもハルシネーションを起こすか、分からないと回答が返ってくるだけです。
+
+実際に、AIコーディングエージェントが利用できるエディタ（VSCode、Cursorなど）を導入し、試している非エンジニアの方も多いのではないでしょうか。
+
+しかし、こうしたツールの出力は基本的にエディタ内に閉じています。コードを書くことが主業務ではないCSやQA、PdMにとって、**エディタ上でAIが動いてくれても、それが日々の業務フローに直結しているか**というと、正直なところ微妙ではないでしょうか。
+
+結局のところ、プロダクトのコンテキスト（実装・仕様・変更履歴）を持たないAIに質問しても、
+
+[^1]
+
+## AI プロダクト運用におけるラストワンマイルとは 
+AIコーディングエージェントの強みは、テキストファイル(CLAUDE.md, AGENTS.md など)を起点にプロダクトに関するコンテキストを持った働きができるということが挙げられます。
+しかし、すべての職能の人が AIコーディングエージェント を使える環境を整備できないため、プロダクトのコンテキストをもったAI活用ができません。
 
 コンテキストを持っていない LLM アプリケーション(Chat GPT, Gemini, Claude など) にプロダクトのことを聞いてもハルシネーションを起こすか、分からないと回答が返ってくるだけです。
 
@@ -34,13 +45,19 @@ Claude Code をはじめとするAIコーディングエージェントの強み
 
 ## Claude Code GitHub Action を操る Slack Bot の導入
 では実際にどのようにラストワンマイルを実現するか？
-様々な手法を検討したところ、 Claude Code GitHub Action と Slack App の組み合わせに着地しました。
 
-[Claude Code GitHub Action ](https://code.claude.com/docs/github-actions) とは GitHub Actions 上で Claude Code を実行することができるアクションです。
+様々な手法を検討したところ、
+
+- 業務上の会話における開始地点の**ほとんどがSlack**
+- **コンテキストの二重管理**を防ぎたい
+- **Claude Code の様々な機能**を活用してみたい
+  - Skills, SubAgent, Slash Command など
+
+以上の理由を踏まえて、 **[Claude Code GitHub Action ](https://code.claude.com/docs/github-actions)** と **Slack App** の組み合わせに着地しました。
 
 
+**【利用イメージ】**
 ![](/images/ai-dev-ops-experiments-in-gaudiy-2025/architecture.png)
-
 
 
 ```yaml:claude-code-slack-action.yml
@@ -120,7 +137,6 @@ export const allowedTools = [
 ```
 
 
-
 ```typescript:index.ts
 import { Octokit } from "@octokit/rest";
 import { allowedTools } from ./tools";
@@ -145,6 +161,8 @@ await octokit.actions.createWorkflowDispatch({
 ```
 
 ## おわりに
+
+
 
 
 ## 参考資料
