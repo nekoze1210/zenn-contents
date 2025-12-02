@@ -2,7 +2,7 @@
 title: "プロダクトのAI開発におけるラストワンマイル活用"
 emoji: "🧭"
 type: "tech"
-topics: ["LLM", "Claude Code", "GitHub Actions", "GauDev" , "アドベントカレンダー"]
+topics: ["LLM", "Claude", "GauDev" , "アドベントカレンダー"]
 published: true
 published_at: 2025-12-05 00:00
 ---
@@ -39,7 +39,7 @@ Claude Code をはじめとするAIコーディングエージェントの強み
 [Claude Code GitHub Action ](https://code.claude.com/docs/github-actions) とは GitHub Actions 上で Claude Code を実行することができるアクションです。
 
 
-![](/images/ai-dev-ops-experiments-in-gaudiy-2025//architecture.png)
+![](/images/ai-dev-ops-experiments-in-gaudiy-2025/architecture.png)
 
 
 
