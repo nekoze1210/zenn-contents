@@ -16,8 +16,8 @@ published_at: 2025-12-05 00:00
 Gaudiy でも各チームで AI 開発を積極的に取り入れてきました。今回の記事では、その一部であるAI開発におけるラストワンマイル活用として試していることをご紹介します。
 
 ## AI 開発におけるラストワンマイルとは 
-Claude Code をはじめとするAIコーディングエージェントの強みは、CLAUDE.mdを起点にプロダクトに関するコンテキストを持った働きができるということが挙げられます。
-しかし、すべての職能の人が Claude Code を使えないため、プロダクトのコンテキストをもったAI活用ができません。[^1]
+Claude Code をはじめとするAIコーディングエージェントの強みは、CLAUDE.md(AGENTS.md)を起点にプロダクトに関するコンテキストを持った働きができるということが挙げられます。
+しかし、すべての職能の人が AIコーディングエージェント を使える環境を整備できないため、プロダクトのコンテキストをもったAI活用ができません。[^1]
 
 コンテキストを持っていない LLM アプリケーション(Chat GPT, Gemini, Claude など) にプロダクトのことを聞いてもハルシネーションを起こすか、分からないと回答が返ってくるだけです。
 
@@ -63,9 +63,13 @@ on:
         required: true
 
 jobs:
-  mcp-test:
+  claude-code-slack-action:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v6
         with:
           node-version: 22
@@ -74,7 +78,7 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: |
-            --allowedTools "Bash,View,Read,Write,Edit,GlobTool,GrepTool,BatchTool,Task,SlashCommand,${{ inputs.mcp_tools }}"
+            --allowedTools "Bash,View,Read,Write,Edit,GlobTool,GrepTool,BatchTool,Task,${{ inputs.mcp_tools }}"
             --mcp-config '{"mcpServers":{"slack":{"command":"npx","args":["-y","@zencoderai/slack-mcp-server"],"env":{"SLACK_BOT_TOKEN":"${{secrets.SLACK_BOT_TOKEN}}","SLACK_TEAM_ID":"E08RYJJJNLX"}}}}'
           prompt: |
             ## Request Context
@@ -86,7 +90,6 @@ jobs:
             1. Understand the context by fetching the conversation history using mcp__slack__slack_get_thread_replies from the channel and timestamp above.
             2. Understand the user's request.
             3. Answer, implement, or call subagent according to the user's request.
-            3-1. When You use sub agent. pass the prompt to the sub agent directly. Do not add or edit any comment or prompt.
             4. Post the response to the Slack thread using mcp__slack__slack_reply_to_thread.
 
             Now, you are in a conversation with a user. You need to answer the user's request. You can call subagent according to the user's request.
@@ -94,9 +97,9 @@ jobs:
             ## User's Prompt
             User: ${{ inputs.prompt }}
 ```
+</details>
 
-
-```typescript
+```typescript:tools.ts
 export const allowedTools = [
   "mcp__github__create_or_update_file",
   "mcp__github__search_repositories",
@@ -112,8 +115,7 @@ export const allowedTools = [
 ]
 ```
 
-
-```typescript
+```typescript:index.ts
 import { Octokit } from "@octokit/rest";
 import { allowedTools } from ./tools";
 
@@ -139,6 +141,11 @@ await octokit.actions.createWorkflowDispatch({
 
 ## おわりに
 
+
+## 参考資料
+https://tech.layerx.co.jp/entry/config-code-generation-with-claude-code-base-action
+
+https://speakerdeck.com/yukukotani/scale-out-your-claude-code
 
 ---
 [#GauDev Advent Calendar 2025](https://adventar.org/calendars/11616)、明日の担当はYuseiWhiteさんです。
