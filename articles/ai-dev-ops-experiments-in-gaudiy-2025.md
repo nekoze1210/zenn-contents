@@ -3,7 +3,8 @@ title: "AI開発時代のプロダクト運用におけるラストワンマイ�
 emoji: "🧭"
 type: "tech"
 topics: ["LLM", "Claude", "GauDev" , "アドベントカレンダー"]
-published: false
+published: true
+published_at: 2025-12-05 00:00
 ---
 
 この記事は[#GauDev Advent Calendar 2025](https://adventar.org/calendars/11616)の5日目です。
